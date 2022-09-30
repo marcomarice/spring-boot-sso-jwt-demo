@@ -27,53 +27,53 @@ public class SecurityConfig {
     @Qualifier("CustomAuthenticationProvider")
     AuthenticationProvider authenticationProvider;
 
-//    @Autowired
-//    BCryptPasswordEncoder passwordEncoder;
-//
-//    @Autowired
-//    JwtTokenAuthenticationFilter jwtTokenAuthenticationFilter;
+    @Autowired
+    BCryptPasswordEncoder passwordEncoder;
 
-//    @Bean
-//    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//        return http.httpBasic().disable()
-//                .csrf().disable()
-//                .sessionManagement(
-//                        c -> c.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-//                .exceptionHandling(
-//                        c -> c.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
-//                .authorizeRequests()
-//                .antMatchers("/login").permitAll()
-//                .antMatchers("/curriculum").hasRole("HR")
-//                .antMatchers(HttpMethod.GET, "/curriculum/{\\d+}").hasRole("DEV")
-//                .antMatchers(HttpMethod.DELETE, "/curriculum/{\\d+}").hasAuthority("curriculum:write")
-//                .anyRequest().authenticated()
-//                .and()
-//                .authenticationProvider(authenticationProvider)
-//                .addFilterBefore(jwtTokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-//                .build();
-//    }
+    @Autowired
+    JwtTokenAuthenticationFilter jwtTokenAuthenticationFilter;
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .cors()
-                .and()
+    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        return http.httpBasic().disable()
                 .csrf().disable()
                 .sessionManagement(
                         c -> c.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .exceptionHandling(
                         c -> c.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
-                .authorizeHttpRequests(authorize -> authorize
-                        .antMatchers("/login").permitAll()
-                        .antMatchers("/curriculum").hasRole("HR")
-                        .antMatchers(HttpMethod.GET, "/curriculum/{\\d+}").hasRole("DEV")
-                        .antMatchers(HttpMethod.DELETE, "/curriculum/{\\d+}").hasAuthority("curriculum:write")
-                        .anyRequest().authenticated()
-                )
+                .authorizeRequests()
+                .antMatchers("/login").permitAll()
+                .antMatchers("/curriculum").hasRole("HR")
+                .antMatchers(HttpMethod.GET, "/curriculum/{\\d+}").hasRole("DEV")
+                .antMatchers(HttpMethod.DELETE, "/curriculum/{\\d+}").hasAuthority("curriculum:write")
+                .anyRequest().authenticated()
+                .and()
                 .authenticationProvider(authenticationProvider)
-                .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt);
-        return http.build();
+                .addFilterBefore(jwtTokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .build();
     }
+
+//    @Bean
+//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+//        http
+//                .cors()
+//                .and()
+//                .csrf().disable()
+//                .sessionManagement(
+//                        c -> c.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+//                .exceptionHandling(
+//                        c -> c.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
+//                .authorizeHttpRequests(authorize -> authorize
+//                        .antMatchers("/login").permitAll()
+//                        .antMatchers("/curriculum").hasRole("HR")
+//                        .antMatchers(HttpMethod.GET, "/curriculum/{\\d+}").hasRole("DEV")
+//                        .antMatchers(HttpMethod.DELETE, "/curriculum/{\\d+}").hasAuthority("curriculum:write")
+//                        .anyRequest().authenticated()
+//                )
+//                .authenticationProvider(authenticationProvider)
+//                .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt);
+//        return http.build();
+//    }
 
     @Bean
     public AuthenticationManager authenticationManager(

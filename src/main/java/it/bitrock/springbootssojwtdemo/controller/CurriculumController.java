@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin(origins = {"${app.security.cors.origin}"})
+//@CrossOrigin(origins = {"${app.security.cors.origin}"})
 @RestController
 public class CurriculumController {
 
