@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import static it.bitrock.springbootssojwtdemo.service.AccountRole.DEV;
 import static it.bitrock.springbootssojwtdemo.service.AccountRole.HR;
@@ -26,15 +25,6 @@ class CustomUserDetailsService implements UserDetailsService {
 
     @Autowired
     AccountRepository accountRepository;
-
-//    @Override
-//    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-//        if ("username".equals(username)) {
-//            return new User(username, encoder.encode("password"),
-//                    List.of(new SimpleGrantedAuthority("ROLE_USER")));
-//        }
-//        throw new UsernameNotFoundException(username);
-//    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -53,7 +43,8 @@ class CustomUserDetailsService implements UserDetailsService {
                         true,
                         true,
                         true,
-                        true)).collect(Collectors.toList());
+                        true))
+                .toList();
     }
 
     private Set<SimpleGrantedAuthority> getApplicationUserRole(String role) {

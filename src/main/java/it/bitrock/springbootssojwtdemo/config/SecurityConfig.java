@@ -12,7 +12,6 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -52,28 +51,6 @@ public class SecurityConfig {
                 .addFilterBefore(jwtTokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
-
-//    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//        http
-//                .cors()
-//                .and()
-//                .csrf().disable()
-//                .sessionManagement(
-//                        c -> c.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-//                .exceptionHandling(
-//                        c -> c.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
-//                .authorizeHttpRequests(authorize -> authorize
-//                        .antMatchers("/login").permitAll()
-//                        .antMatchers("/curriculum").hasRole("HR")
-//                        .antMatchers(HttpMethod.GET, "/curriculum/{\\d+}").hasRole("DEV")
-//                        .antMatchers(HttpMethod.DELETE, "/curriculum/{\\d+}").hasAuthority("curriculum:write")
-//                        .anyRequest().authenticated()
-//                )
-//                .authenticationProvider(authenticationProvider)
-//                .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt);
-//        return http.build();
-//    }
 
     @Bean
     public AuthenticationManager authenticationManager(
