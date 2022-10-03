@@ -23,17 +23,12 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
     @Autowired
-    @Qualifier("CustomAuthenticationProvider")
-    AuthenticationProvider authenticationProvider;
-
-    @Autowired
     BCryptPasswordEncoder passwordEncoder;
 
-    @Autowired
-    JwtTokenAuthenticationFilter jwtTokenAuthenticationFilter;
-
     @Bean
-    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    SecurityFilterChain securityFilterChain(HttpSecurity http,
+                                            AuthenticationProvider authenticationProvider,
+                                            JwtTokenAuthenticationFilter jwtTokenAuthenticationFilter) throws Exception {
         return http.httpBasic().disable()
                 .csrf().disable()
                 .sessionManagement(
